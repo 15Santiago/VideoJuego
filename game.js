@@ -1,11 +1,17 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
+const livesDom = document.querySelector('#lives');
+const timeDom = document.querySelector('#time');
 
 // Map
 let canvasSize;
 let elemnetsSize;
 let level = 0;
 let lives = 3;
+
+let timeStart;
+let timePlayer;
+let TimeInterval;
 
 const playerPosition = {
     X: undefined,
@@ -44,6 +50,10 @@ function renderMap () {
         gameWin();
         return;
     };
+    if (!timeStart) {
+        timeStart = Date.now();
+        TimeInterval = setInterval(showTime, 100);
+    };
 
     const mapRows = map.trim().split('\n');
     const mapColumns = mapRows.map(row => row.trim().split(''));    
@@ -74,6 +84,13 @@ function renderMap () {
         });
     });
     movePlayer();
+    showLives();
+};
+function showLives () {
+    livesDom.innerHTML = emojis['HEART'].repeat(lives);
+};
+function showTime () {
+    timeDom.innerHTML = Date.now() - timeStart;
 };
 
 //Move player
@@ -116,7 +133,8 @@ function levelWin () {
 };
 
 function gameWin () {
-    console.log('Terminaste el juego');  
+    console.log('Terminaste el juego');
+    clearInterval(TimeInterval);  
 };
 
 function levelFail () {
@@ -125,6 +143,7 @@ function levelFail () {
     if (lives <= 0) {
         level = 0;
         lives = 3;
+        timeStart = undefined;
     };
 
     playerPosition.X = undefined;
