@@ -60,6 +60,13 @@ p {
     margin: 0;
     width: 100%;
 }
+
+.reload-btn {
+    height: 35px;
+    width: 100px;
+    margin-top: -70px;
+    margin-left: 75%;
+}
   
 @media (max-width: 440px) {
     button { margin-top: 5px; }

@@ -4,6 +4,7 @@ const livesDom = document.querySelector('#lives');
 const timeDom = document.querySelector('#time');
 const recordDom = document.querySelector('#record');
 const resultDom = document.querySelector('#result');
+const btnReloadContainer = document.querySelector('.messages');
 
 // Map
 let canvasSize;
@@ -31,15 +32,18 @@ window.addEventListener('resize', setCanvasSize);
 function setCanvasSize () {
 
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.8;
+        canvasSize = window.innerWidth * 0.7;
     } else {
-        canvasSize = window.innerHeight * 0.8;
+        canvasSize = window.innerHeight * 0.7;
     };
 
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
     elemnetsSize = canvasSize / 10;
+
+    playerPosition.X = undefined;
+    playerPosition.Y = undefined;
     renderMap();
 };
 
@@ -104,6 +108,15 @@ function showRecord () {
     recordDom.innerHTML = localStorage.getItem('record_time');
 };
 
+function reloadBtn () {
+    const btn = document.createElement('button');
+    btn.className = 'reload-btn';
+    btn.textContent = 'Reiniciar';
+    btn.addEventListener('click', () => window.location.reload());
+
+    btnReloadContainer.appendChild (btn);
+};
+
 //Move player
 const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
@@ -159,6 +172,7 @@ function gameWin () {
     } else {
         localStorage.setItem('record_time', playerTime);
     };
+    reloadBtn();
 };
 
 function levelFail () {
